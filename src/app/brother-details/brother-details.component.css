@@ -1,0 +1,47 @@
+.details {
+    margin: auto 20px;
+    padding-bottom: 60px;
+}
+
+.detail__zeta-number {
+    font-size: 0.6em;
+    position: relative;
+    bottom: 0.2em;
+    color: #7f7f7f;
+}
+
+.detail__questions {
+    padding: 20px 0;
+}
+
+.detail__question {
+    font-size: 1.2em;
+}
+
+.detail__answer {
+    font-size: 1em;
+    padding-left: 20px;
+}
+
+.detail__photo--container{
+    width: 100%;
+}
+
+.detail__photo {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+.detail__text{
+    background-color: white;
+}
+
+.edit_button{
+    bottom: 4px;
+}
+
+.little_brother_list{
+    float: left;
+}

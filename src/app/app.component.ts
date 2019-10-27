@@ -3,8 +3,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.sass', './app.component.css']
 })
 export class AppComponent {
   title = 'DirectoryClient';
+
+  public getYear(): string{
+    return new Date().getFullYear().toString();
+  }
 }

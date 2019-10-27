@@ -1,0 +1,52 @@
+nav {
+    padding: 20px;
+}
+
+.nav__back {
+    cursor: pointer;
+    width: 3em;
+    height: 3em;
+}
+
+.header-text {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.login_link {
+    position: relative;
+    left: 20px;
+    bottom: 18px;
+}
+
+.nav__logo{
+    cursor: pointer;
+}
+
+/*Mobile*/
+
+/*Screen ≤ 600px*/
+
+@media only screen and (max-width: 600px) {
+    /*Top Nav*/
+    .header-text {
+        font-size: 0.8em;
+        font-weight: 500;
+        margin-top: 30px;
+        top: 0px;
+        right: 10px;
+        position: absolute;
+    }
+    .nav__logo {
+        width: 30px;
+    }
+    .login_link{
+        display: inline-block;
+        position: relative;
+        top: 45px;
+        left: -45px;
+        padding-left: 0px;
+        padding-bottom: 20px;
+    }
+}

@@ -1,0 +1,23 @@
+<div class="main-container">
+    <app-navbar></app-navbar>
+
+    <div class="search">
+        <form action="#">
+            <label for="search-field" class="search__title">Search:</label>
+            <br>
+            <input id="search-field" class="search__field" type="text" placeholder="Name">
+            <button type="button" id="search-button" class="search__button button" (click)="search()"><span class="fa fa-search"></span></button>
+        </form>
+    </div>
+
+    <div id="brother-list" class="brother-list" *ngIf="brothers && basePictureUrl">
+        <div class="row" *ngFor="let row of brothers">
+            <a *ngFor="let brother of row">
+                <div *ngIf="brother" (click)="onSelect(brother)" class="col-s-4 brother">
+                    <img src="{{getPictureUrl(brother.id)}}" alt="{{brother.firstName}} {{brother.lastName}}" class="brother__image">
+                    <div class="brother__name">{{brother.firstName}} {{brother.lastName}}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

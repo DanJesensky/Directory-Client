@@ -1,0 +1,69 @@
+<div class="main-container">
+    <app-navbar></app-navbar>
+
+    <div *ngIf="brother" id="brother-details" class="details">
+        <div class="details__name">
+            <h1>
+                {{brother.firstName}} {{brother.lastName}}
+                <span *ngIf="brother.zetaNumber" class="detail__zeta-number">{{getChapterDesignation()}}-{{brother.zetaNumber}}</span>
+                <span *ngIf="!brother.zetaNumber" class="detail__zeta-number">Associate Member</span>
+                <!-- Not dealing with edit right now
+                <button mat-raised-button *ngIf="canEdit()" class="edit_button" (click)="editPerson()">Edit</button>
+                -->
+            </h1>
+            <br />
+        </div>
+
+    <div class="row">
+        <div class="col-s-5">
+            <div class="detail__photo--container">
+                <img class="detail__photo" src="{{this.brotherService.getPictureBaseUrl()}}/{{brother.id}}" />
+            </div>
+        </div>
+            <mat-card class="detail__text col-s-7">
+                    {{getMajors()}}<br />
+                    {{getMinors()}}<br /><br />
+
+                    Joined {{formatDate(brother.dateJoined)}}<br />
+                    <span *ngIf="brother.dateInitiated != null">Initiated {{formatDate(brother.dateInitiated)}}<br /></span>
+                    <!-- If the date isn't valid, the API default is for some reason to use now as the date/time, but doesn't serialize it using an ISO8601 standard.
+                         therefore, it won't match the regex and a date object won't be instantiated around it. we could check the type, or we can just check for something
+                         that the date class has (getTime()) and if it isn't there, ignore the date (because it was now() and invalid anyways). -->
+                    <span *ngIf="brother.expectedGraduation.getTime">{{getGraduationTense()}} {{convertDateIntoSemester(brother.expectedGraduation)}}<br /><br /></span>
+
+                    <span *ngIf="brother.bigBrother">
+                        Big brother:
+                        <a *ngIf="brother.bigBrother.viewable" [routerLink]="['/details', brother.bigBrother.id]">{{brother.bigBrother.name}}</a>
+                        <span *ngIf="!brother.bigBrother.viewable">{{brother.bigBrother.name}}</span>
+                        <br />
+                    </span>
+                    <span *ngIf="brother.littleBrothers && brother.littleBrothers.length > 0">
+                        <!-- it's necessary to float: left on everything in the list so that it stays in order, but also so that there aren't
+                        spaces before the commas. it's a silly solution for a silly problem, and I'd love to fix it, but I don't think that's
+                        going to happen... -->
+                        <span class="little_brother_list">Little brother{{determinePlurality(brother.littleBrothers, "", "s")}}:&nbsp;</span>
+                        <span *ngFor="let little of brother.littleBrothers; let i = index">
+                            <a *ngIf="little.viewable" [routerLink]="['/details', little.id]" class="little_brother_list">{{little.name}}</a>
+                            <span *ngIf="!little.viewable" class="little_brother_list">{{little.name}}</span>
+                            <span *ngIf="i < brother.littleBrothers.length - 1" class="little_brother_list">,&nbsp;</span>
+                        </span>
+                        <br />
+                    </span>
+                    <br />
+
+                    {{getPastPositions()}}<br />
+                    {{getCurrentPositions()}}<br />
+                    <br />
+
+                    <div class="detail__questions" *ngFor="let q of brother.questions">
+                        <div class="detail__question">
+                            {{q.question}}
+                        </div>
+                        <div class="detail__answer">
+                            {{q.answer}}
+                        </div>
+                    </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
