@@ -11,8 +11,8 @@ export class Brother {
     public zetaNumber?: number;
     public dateJoined?: Date;
     public dateInitiated?: Date;
-    public chapterDesignation: string;
     public expectedGraduation?: Date;
+    public chapterDesignation: string;
     public bigBrother: RelatedBrother;
     public majors: MajorMinor[];
     public minors: MajorMinor[];

@@ -25,10 +25,14 @@ export class BrotherDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.brotherService.getBrother(+params.id).then(brother => this.brother = brother);
+      this.brotherService.getBrother(+params.id).then(brother => {
+        this.brother = brother;
+        this.sortPositions();
+      });
     });
   }
-  sortPositions(): void{
+
+  sortPositions(): void {
     this.currentPositions = [];
     this.pastPositions = [];
     const now: Date = new Date();
@@ -45,14 +49,14 @@ export class BrotherDetailsComponent implements OnInit {
     }
   }
 
-  getGraduationTense(): string{
-    if (new Date().getTime() > this.brother.expectedGraduation.getTime()) {
+  getGraduationTense(): string {
+    if (new Date().getTime() > new Date(this.brother.expectedGraduation).getTime()) {
       return 'Graduated';
     }
     return 'Expected graduation:';
   }
 
-  convertDateIntoSemester(date: Date): string{
+  convertDateIntoSemester(date: Date): string {
     let d = '';
     if (date.getMonth() <= 5) {
       d = 'Spring';
@@ -96,14 +100,14 @@ export class BrotherDetailsComponent implements OnInit {
     return list;
   }
 
-  getMajors(): string{
+  getMajors(): string {
     if (!this.brother.majors || this.brother.majors.length === 0 || this.brother.majors[0].name.toLowerCase().startsWith('undecided')) {
       return 'No major (undecided)';
     }
     return this.formatList(this.brother.majors) + ' major';
   }
 
-  getMinors(): string{
+  getMinors(): string {
     if (!this.brother.minors || this.brother.minors.length === 0) {
       return 'No minor';
     }
@@ -111,11 +115,11 @@ export class BrotherDetailsComponent implements OnInit {
     return this.formatList(this.brother.minors) + ' minor';
   }
 
-  formatList(s: MajorMinor[]): string{
+  formatList(s: MajorMinor[]): string {
     return this.formatStringList(s, (m: MajorMinor) => m.name);
   }
 
-  getCurrentPositions(): string{
+  getCurrentPositions(): string {
     if (!this.currentPositions || this.currentPositions.length === 0) {
       return 'Not currently holding any positions';
     }
@@ -123,7 +127,7 @@ export class BrotherDetailsComponent implements OnInit {
     return 'Currently holding ' + this.formatStringList(this.currentPositions);
   }
 
-  getPastPositions(): string{
+  getPastPositions(): string {
     if (!this.pastPositions || this.pastPositions.length === 0) {
       return 'No offices held in the past';
     }
@@ -143,8 +147,8 @@ export class BrotherDetailsComponent implements OnInit {
     return this.brother.chapterDesignation ? this.brother.chapterDesignation : '\u039A\u03A6';
   }
 
-  formatDate(d: Date): string {
-    return d.toString(); // .toLocaleDateString('en-US');
+  formatDate(date: Date): string {
+    return date.toLocaleDateString('en-US');
   }
 
   goBack(): void {

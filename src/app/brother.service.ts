@@ -27,6 +27,19 @@ export class BrotherService {
     }
 
     public getBrother(id: number): Promise<Brother> {
-      return this.httpClient.get<Brother>(`${this.configService.config.apiUrl}/Brother/${id}`).toPromise();
+      return this.httpClient.get<Brother>(`${this.configService.config.apiUrl}/Brother/${id}`).toPromise().then(b => {
+        // Manually map these to dates since HttpClient doesn't do it right, and there seems to be no way to correct this behavior,
+        // besides writing an HttpInterceptor: https://stackoverflow.com/questions/46559268/parse-date-with-angular-4-3-httpclient
+        b.dateJoined = b.dateJoined ? new Date(b.dateJoined) : null;
+        b.dateInitiated = b.dateInitiated ? new Date(b.dateInitiated) : null;
+        b.expectedGraduation = b.expectedGraduation ? new Date(b.expectedGraduation) : null;
+
+        b.positions.forEach(position => {
+          position.heldFrom = position.heldFrom ? new Date(position.heldFrom) : null;
+          position.heldTo = position.heldTo ? new Date(position.heldTo) : null;
+        });
+
+        return b;
+      });
     }
 }
