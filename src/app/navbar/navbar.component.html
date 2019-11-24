@@ -4,14 +4,14 @@
             <img src="/assets/images/logos/cross-and-crescent.png" alt="Lambda Chi Alpha Cross and Crescent" class="nav__logo">
         </span>
         <span class="login_link">
-            <!--
-            Login button - disabled for now because how this was handled before is no longer relevant
-            -->
-
-            <!--
-            <button mat-raised-button *ngIf="isLoginVisible()" (click)="showLogin()">Log In</button>
-            <button mat-raised-button *ngIf="!isLoginVisible()" (click)="logOut()">Log Out</button>
-            -->
+            <button mat-raised-button *ngIf="isLoginVisible()" (click)="initiateLogin()">Log In</button>
+            <div style="display:inline-block;" *ngIf="!isLoginVisible()">
+                <span *ngIf="userFriendlyName">
+                    Welcome, {{userFriendlyName}}
+                    <br>
+                </span>
+                <button mat-raised-button *ngIf="!isLoginVisible()" (click)="logOut()">Log Out</button>
+            </div>
         </span>
     </div>
     <div class="header-text float-right">&Lambda;&Chi;&Alpha; Baldwin Wallace Student Directory</div>

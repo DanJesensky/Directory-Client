@@ -1,3 +1,14 @@
 {
-  "apiUrl": "http://localhost:8003"
+  "apiUrl": "http://localhost:8003",
+  "OAuth2Configuration": {
+    "issuer": "http://localhost:5000",
+    "clientId": "directory",
+    "scope": "openid profile offline_access directory",
+    "redirectUri": "http://localhost:4200/index.html",
+    "postLogoutRedirectUri": "http://localhost:4200/index.html",
+    "responseType": "code",
+
+    "requireHttps": "remoteOnly",
+    "showDebugInformation": true
+  }
 }
