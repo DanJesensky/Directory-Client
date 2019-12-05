@@ -7,9 +7,6 @@
                 {{brother.firstName}} {{brother.lastName}}
                 <span *ngIf="brother.zetaNumber" class="detail__zeta-number">{{getChapterDesignation()}}-{{brother.zetaNumber}}</span>
                 <span *ngIf="!brother.zetaNumber" class="detail__zeta-number">Associate Member</span>
-                <!-- Not dealing with edit right now
-                <button mat-raised-button *ngIf="canEdit()" class="edit_button" (click)="editPerson()">Edit</button>
-                -->
             </h1>
             <br />
         </div>
@@ -26,10 +23,9 @@
 
                     Joined {{formatDate(brother.dateJoined)}}<br />
                     <span *ngIf="brother.dateInitiated != null">Initiated {{formatDate(brother.dateInitiated)}}<br /></span>
-                    <!-- If the date isn't valid, the API default is for some reason to use now as the date/time, but doesn't serialize it using an ISO8601 standard.
-                         therefore, it won't match the regex and a date object won't be instantiated around it. we could check the type, or we can just check for something
-                         that the date class has (getTime()) and if it isn't there, ignore the date (because it was now() and invalid anyways). -->
-                    <span *ngIf="brother.expectedGraduation.getTime">{{getGraduationTense()}} {{convertDateIntoSemester(brother.expectedGraduation)}}<br /><br /></span>
+                    
+                    <span *ngIf="brother.expectedGraduation != null">{{getGraduationTense()}} {{convertDateIntoSemester(brother.expectedGraduation)}}<br /></span>
+                    <br />
 
                     <span *ngIf="brother.bigBrother">
                         Big brother:
@@ -65,5 +61,11 @@
                     </div>
             </mat-card>
         </div>
+    </div>
+
+    <div class="mat-fab-buttons">
+        <button mat-fab *ngIf="canEdit()" (click)="editPerson()">
+            <mat-icon>edit</mat-icon>
+        </button>
     </div>
 </div>

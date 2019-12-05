@@ -1,6 +1,6 @@
 .details {
     margin: auto 20px;
-    padding-bottom: 60px;
+    padding-bottom: 160px;
 }
 
 .detail__zeta-number {
@@ -38,8 +38,10 @@
     background-color: white;
 }
 
-.edit_button{
-    bottom: 4px;
+.mat-fab-buttons{
+    right: 10px;
+    bottom: 60px;
+    position: fixed;
 }
 
 .little_brother_list{

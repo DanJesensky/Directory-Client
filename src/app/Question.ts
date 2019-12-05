@@ -1,5 +1,5 @@
 export class Question{
   public id: number;
-  public question: string;
+  public questionText: string;
   public answer: string;
 }

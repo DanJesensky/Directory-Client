@@ -1,0 +1,222 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="brother" id="brother-details" class="details">
+    <mat-card id="content">
+        <div class="details__name">
+            <h1>
+                {{brother.firstName}} {{brother.lastName}}
+                <span *ngIf="brother.initiated" class="detail__zeta-number">{{getChapterDesignation()}}-{{brother.zetaNumber}}</span>
+                <span *ngIf="!brother.initiated" class="detail__zeta-number">Associate Member</span>
+                
+                <div class="visibility-button">
+                    <button mat-mini-fab *ngIf="brother.visible" (click)="toggleVisibility()">
+                        <mat-icon>visibility_on</mat-icon>
+                    </button>
+                    <button mat-mini-fab *ngIf="!brother.visible" (click)="toggleVisibility()">
+                        <mat-icon>visibility_off</mat-icon>
+                    </button>
+                </div>
+            </h1>
+        </div>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Basic Information
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="basic_left-side">
+                <mat-form-field class="input_container">
+                    <input matInput id="firstName" type="text" placeholder="First Name" name="firstName" [(ngModel)]="brother.firstName" />
+                </mat-form-field>
+                <br />
+                
+                <mat-form-field class="input_container">
+                    <input matInput id="lastName" type="text" placeholder="Last Name" name="lastName" [(ngModel)]="brother.lastName" />
+                </mat-form-field>
+                <br />
+                
+                <mat-form-field>
+                    <input matInput [(ngModel)]="brother.chapterDesignation" placeholder="Chapter Designation" id="chapterDesignation" name="chapterDesignation" />
+                </mat-form-field>
+                <br />
+
+                <mat-form-field>
+                    <input matInput [(ngModel)]="brother.zetaNumber" placeholder="Zeta Number" id="zetaNumber" name="zetaNumber" />
+                </mat-form-field>
+                <br />
+
+                <mat-form-field>
+                    <input type="text" matInput [matAutocomplete]="bigBrotherAutocomplete" placeholder="Big Brother" id="bigBrother" name="bigBrother" [value]="brother.bigBrother.name" />
+                </mat-form-field>
+                <mat-autocomplete #bigBrotherAutocomplete>
+                    <mat-option *ngFor="let b of this.allBrothers" [value]="b.name" (click)="brother.bigBrother.id = b.id;">
+                        {{b.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <br />
+            </div>
+
+            <div class="basic_right-side">
+                <div id="picture-upload">
+                    <img id="current-picture" src="{{this.pictureUrl}}" class="automargin" />
+                    <br />
+
+                    <div class="upload-buttons">
+                        <input type="file" (change)="fileChanged($event)" accept=".png,.jpg,.jpeg" class="upload_left-side" />
+                        <button mat-raised-button color="warn" (click)="removePicture()" class="upload_right-side">Remove Picture</button>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Association, Initiation, and Graduation Dates
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <mat-form-field>
+                <input matInput [matDatepicker]="joinedPicker" placeholder="Date of Association" [(ngModel)]="brother.dateJoined" />
+                <mat-datepicker-toggle matSuffix [for]="joinedPicker"></mat-datepicker-toggle>
+                <mat-datepicker #joinedPicker></mat-datepicker>
+            </mat-form-field>
+            <br />
+    
+            <mat-checkbox [(ngModel)]="brother.initiated">Initiated</mat-checkbox><br />
+            <mat-form-field>
+                <input matInput [matDatepicker]="initiatedPicker" placeholder="Date of Initiation" [(ngModel)]="brother.dateInitiated" [disabled]="!brother.initiated" />
+                <mat-datepicker-toggle matSuffix [for]="initiatedPicker" *ngIf="brother.initiated"></mat-datepicker-toggle>
+                <mat-datepicker #initiatedPicker></mat-datepicker>
+            </mat-form-field>
+            <br />
+    
+            <mat-form-field>
+                <input matInput [matDatepicker]="graduatedPicker" placeholder="Date of Graduation" [(ngModel)]="brother.expectedGraduation" />
+                <mat-datepicker-toggle matSuffix [for]="graduatedPicker"></mat-datepicker-toggle>
+                <mat-datepicker #graduatedPicker></mat-datepicker>
+            </mat-form-field>
+            <br />
+        </mat-expansion-panel>
+
+        <mat-expansion-panel id='majors' *ngIf="this.allMajors">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Majors
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="major" *ngFor="let major of brother.majors; let i = index">
+                <mat-form-field>
+                    <mat-select placeholder="Major" [(ngModel)]="this.brother.majors[i].id">
+                        <mat-option *ngFor="let m of this.allMajors" [value]="m.id">{{m.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button mat-mini-fab (click)="deleteMajor(this.brother.majors[i])">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            <button mat-mini-fab (click)="addMajor()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-expansion-panel>
+
+        
+        <mat-expansion-panel id='minors' *ngIf="this.allMinors">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Minors
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="minor" *ngFor="let minor of brother.minors; let i = index">
+                <mat-form-field>
+                    <mat-select placeholder="Minor" [(ngModel)]="this.brother.minors[i].id">
+                        <mat-option *ngFor="let m of this.allMinors" [value]="m.id">{{m.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button mat-mini-fab (click)="deleteMinor(this.brother.minors[i])">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            <button mat-mini-fab (click)="addMinor()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-expansion-panel>
+
+        
+        <mat-expansion-panel id='questions' *ngIf="this.allQuestions">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Questions/Answers
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div *ngFor="let question of brother.questions; let i = index">
+                <p>
+                    <mat-form-field class="wide-input">
+                        <mat-select placeholder="Question Text" [(ngModel)]="this.brother.questions[i].id">
+                            <mat-option *ngFor="let q of this.allQuestions" [value]="q.id">{{q.questionText}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button mat-mini-fab (click)="deleteQuestion(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <br />
+
+                    <mat-form-field class="input_container wide-input">
+                        <input matInput id="answer-{{index}}" name="answer-{{index}}" type="datetime" placeholder="Response" [(ngModel)]="question.answer" />
+                    </mat-form-field>
+                </p>
+            </div>
+
+            <button mat-mini-fab *ngIf="this.hasUnansweredQuestions()" (click)="addQuestion()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Positions
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div *ngFor="let position of this.brother.positions; let i = index">
+                <mat-form-field>
+                    <mat-select placeholder="Officer Position" [(ngModel)]="this.brother.positions[i].id">
+                        <mat-option *ngFor="let p of this.allPositions" [value]="p.id">{{p.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <input matInput [matDatepicker]="FromPicker" placeholder="Date Held From" [(ngModel)]="this.brother.positions[i].heldFrom" />
+                    <mat-datepicker-toggle matSuffix [for]="FromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #FromPicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="ToPicker" placeholder="Date Held To" [(ngModel)]="this.brother.positions[i].heldTo" />
+                    <mat-datepicker-toggle matSuffix [for]="ToPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #ToPicker></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-mini-fab (click)="deletePosition(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            <button mat-mini-fab (click)="addPosition()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-expansion-panel>
+
+        <button mat-raised-button class="submit-button" (click)="saveChanges()">Submit Changes</button>
+    </mat-card>
+</div>

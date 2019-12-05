@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Brother } from './Brother';
 import { ContentModel } from './ContentModel';
-import { Observable } from 'rxjs';
 import {ConfigService} from './config.service';
-import {Config} from './config';
+import { MinimalBrother } from './MinimalBrother';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +40,21 @@ export class BrotherService {
 
         return b;
       });
+    }
+
+    public async saveBrother(brother: Brother): Promise<void>{
+        throw new Error("Method not implemented.");
+    }
+
+    public async savePicture(id: number, picture: File): Promise<void>{
+        throw new Error("Method not implemented.");
+    }
+
+    public async GetMinimalBrothers(): Promise<MinimalBrother[]>{
+      let brothers: ContentModel<MinimalBrother> = await
+        this.httpClient
+          .get<ContentModel<MinimalBrother>>(`${this.configService.config.apiUrl}/Brother/Minimal`)
+          .toPromise();
+      return brothers.content;
     }
 }

@@ -1,0 +1,80 @@
+#content{
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.details {
+    margin: auto 20px;
+    padding-bottom: 60px;
+}
+
+.detail__zeta-number {
+    font-size: 0.6em;
+    position: relative;
+    bottom: 0.2em;
+    color: #7f7f7f;
+}
+
+mat-input-container{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.question-response{
+    width: 50%;
+}
+
+.wide-input{
+    width: 75%;
+    min-width: 75%;
+}
+
+.submit-button{
+    margin-top: 15px;
+}
+
+.basic_left-side{
+    display: block;
+    float: left;
+    width: 25%;
+}
+
+.basic_right-side{
+    display: inline-flex;
+}
+
+.upload_right-side{
+    display: inline-block;
+}
+
+.upload_left-side{
+    padding-top: 0.5em;
+    display: block;
+    float: left;
+    width: 75%;
+}
+
+.automargin{
+    margin: 0 auto;
+    display: block;
+}
+
+.visibility-button{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+#current-picture{
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    #content {
+        width: 100%;
+    }
+}

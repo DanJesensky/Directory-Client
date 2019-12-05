@@ -6,6 +6,7 @@ import {RelatedBrother} from '../RelatedBrother';
 import {MajorMinor} from '../MajorMinor';
 import {Location} from '@angular/common';
 import {ConfigService} from '../config.service';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-brother-details',
@@ -21,7 +22,8 @@ export class BrotherDetailsComponent implements OnInit {
               private brotherService: BrotherService,
               private route: ActivatedRoute,
               private router: Router,
-              private location: Location) { }
+              private location: Location,
+              private oauthService: OAuthService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -153,5 +155,15 @@ export class BrotherDetailsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  canEdit(): boolean{
+    // At the moment, only administrators can log in.
+    // So people changing their own details is out of scope at this time.
+    return this.oauthService.hasValidAccessToken();
+  }
+
+  editPerson(): void{
+    this.router.navigate(['/edit-details', this.brother.id]);
   }
 }
